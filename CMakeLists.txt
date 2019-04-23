@@ -40,8 +40,8 @@ project(lua VERSION 5.3.4 LANGUAGES C)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 # Project options
-option(BUILD_LUA_INTERPRETER "Build the lua interpreter (lua)." ON)
-option(BUILD_LUA_COMPILER "Build the lua compiler (luac)." ON)
+option(BUILD_LUA_INTERPRETER "Build the lua interpreter (lua)." OFF)
+option(BUILD_LUA_COMPILER "Build the lua compiler (luac)." OFF)
 
 # Install directories
 set(LUA_INSTALL_ROOT "")
@@ -82,19 +82,22 @@ else()
   if(BUILD_SHARED_LIBS)
     list(APPEND CMAKE_C_FLAGS -fPIC)
   endif()
+  
+  if( BUILD_LUA_INTERPRETER OR BUILD_LUA_COMPILER) 
+	  find_package(LibDL)
+	  if(LIBDL_FOUND)
+		include_directories(${LIBDL_INCLUDE_DIR})    
+		list(APPEND LUA_EXTERNAL_LIBS ${LIBDL_LIBRARIES})
+	  endif()
+	  
 
-  find_package(LibDL)
-  if(LIBDL_FOUND)
-    include_directories(${LIBDL_INCLUDE_DIR})    
-    list(APPEND LUA_EXTERNAL_LIBS ${LIBDL_LIBRARIES})
+	  find_package(Readline)
+	  if(READLINE_FOUND)
+		include_directories(${READLINE_INCLUDE_DIR})    
+		list(APPEND LUA_EXTERNAL_LIBS ${READLINE_LIBRARIES})
+	  endif()
   endif()
-
-  find_package(Readline)
-  if(READLINE_FOUND)
-    include_directories(${READLINE_INCLUDE_DIR})    
-    list(APPEND LUA_EXTERNAL_LIBS ${READLINE_LIBRARIES})
-  endif()
-
+  
   list(APPEND LUA_EXTERNAL_LIBS m)
 
   if(NOT(READLINE_FOUND))
