@@ -86,6 +86,8 @@ set_property(TARGET lua PROPERTY INTERFACE_INCLUDE_DIRECTORIES
 set_target_properties(lua PROPERTIES VERSION "${lua_VERSION}")
 set_target_properties(lua PROPERTIES SOVERSION "${lua_VERSION}")
 
+target_compile_options(lua PRIVATE -fPIC)
+
 install(
   TARGETS lua
   EXPORT lua-lib-targets
