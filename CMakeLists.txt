@@ -117,7 +117,7 @@ write_basic_package_version_file(
 # Generate lua-config.cmake
 set(config_file "${CMAKE_BINARY_DIR}/${LUA_INSTALL_CMAKE_DIR}/lua-config.cmake")
 configure_package_config_file(
-  "${CMAKE_SOURCE_DIR}/cmake/lua-config.cmake.in" 
+  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/lua-config.cmake.in" 
   "${config_file}"
   INSTALL_DESTINATION "${LUA_INSTALL_CMAKE_DIR}"
    PATH_VARS 
